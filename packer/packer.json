@@ -1,0 +1,50 @@
+{
+  "variables": {
+    "aws_security_token": "{{env `AWS_SESSION_TOKEN`}}",
+    "aws_instance_type": "t2.medium",
+    "aws_region": "",
+    "aws_vpc_id": "",
+    "aws_subnet_id": "",
+    "ami_name": "REMEDI-AMI"
+  },
+  "builders": [{
+    "type": "amazon-ebs",
+    "encrypt_boot": true,
+    "token": "{{user `aws_security_token`}}",
+    "region": "{{user `aws_region`}}",
+    "source_ami": "{{user `aws_source_ami`}}",
+    "instance_type": "{{user `aws_instance_type`}}",
+    "ssh_username": "ubuntu",
+    "vpc_id": "{{user `aws_vpc_id`}}",
+    "subnet_id": "{{user `aws_subnet_id`}}",
+    "ami_name": "{{user `ami_name`}}_{{isotime \"2006-01-02_1504\"}}",
+    "ami_regions": "{{user `aws_region`}}",
+    "ssh_pty": "true",
+    "ssh_timeout": "10m",
+    "tags": {
+      "Name": "{{user `ami_name`}}"
+    }
+  }],
+  "provisioners": [
+    {
+      "type": "shell",
+      "script": "scripts/install-dependencies.sh"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/build-remedi.sh"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/build-tools.sh"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/install-ssm.sh"
+    },
+    {
+      "type": "shell",
+      "script": "scripts/configure-ssh.sh"
+    }
+  ]
+}
