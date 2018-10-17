@@ -13,10 +13,7 @@ sudo apt-get install -y \
   curl
 
 sudo apt-get install -y \
-  gcc-4.9 g++-4.9 gcc-4.9-base \
-  gcc-4.8 g++-4.8 gcc-4.8-base \
-  gcc-4.7 g++-4.7 gcc-4.7-base \
-  gcc-4.6 g++-4.6 gcc-4.6-base
+  gcc-4.9 g++-4.9 gcc-4.9-base
 
 sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-4.9 100
 sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-4.9 100
