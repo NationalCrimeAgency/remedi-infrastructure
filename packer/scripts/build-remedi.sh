@@ -10,7 +10,8 @@ sudo apt-get update
 sudo apt-get install -y \
   make \
   git \
-  curl
+  curl \
+  libssl-dev
 
 sudo apt-get install -y \
   gcc-4.9 g++-4.9 gcc-4.9-base
@@ -42,7 +43,7 @@ echo "Building REMEDI"
 mkdir build
 cd build
 
-cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake -DWITH_TLS=true -DCMAKE_BUILD_TYPE=Release ..
 make -j 8
 
 echo "Installing REMEDI"

@@ -69,3 +69,28 @@ variable "truecaser" {
   description = "The name of the TrueCaser to use, set to uk.gov.nca.remedi.utils.StanfordTrueCaser to enable true casing on English"
   default = "uk.gov.nca.remedi.utils.NoOpTrueCaser"
 }
+
+variable "processor_certificate" {
+  description = "The contents of the REMEDI Processor certificate (.crt) file. If not supplied, then TLS will be disabled for the REMEDI Processor."
+  default = ""
+}
+
+variable "processor_certificate_key" {
+  description = "The contents of the REMEDI Processor certificate key (.key) file. If not supplied, then TLS will be disabled for the REMEDI Processor."
+  default = ""
+}
+
+variable "balancer_certificate" {
+  description = "The contents of the REMEDI Balancer certificate (.crt) file. If not supplied, then TLS will be disabled for the REMEDI Balancer."
+  default = ""
+}
+
+variable "balancer_certificate_key" {
+  description = "The contents of the REMEDI Balancer certificate key (.key) file. If not supplied, then TLS will be disabled for the REMEDI Balancer."
+  default = ""
+}
+
+variable "ciphers" {
+  description = "Ciphers to be used by REMEDI (if TLS is enabled)"
+  default = "ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES256-GCM-SHA384:DHE-RSA-AES128-GCM-SHA256:DHE-DSS-AES128-GCM-SHA256:kEDH+AESGCM:ECDHE-RSA-AES128-SHA256:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA:ECDHE-ECDSA-AES128-SHA:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA:ECDHE-ECDSA-AES256-SHA:DHE-RSA-AES128-SHA256:DHE-RSA-AES128-SHA:DHE-DSS-AES128-SHA256:DHE-RSA-AES256-SHA256:DHE-DSS-AES256-SHA:DHE-RSA-AES256-SHA:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!3DES:!MD5:!PSK"
+}

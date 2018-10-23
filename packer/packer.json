@@ -1,7 +1,7 @@
 {
   "variables": {
     "aws_security_token": "{{env `AWS_SESSION_TOKEN`}}",
-    "aws_instance_type": "t2.medium",
+    "aws_instance_type": "t2.large",
     "aws_region": "",
     "aws_vpc_id": "",
     "aws_subnet_id": "",

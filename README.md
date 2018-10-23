@@ -40,3 +40,8 @@ are available on an S3 bucket, using the following naming convention respectivel
 * {language}_en.tm
 
 Currently, it is assumed that English will always be the target language.
+
+Secure Web Socket (TLS) support can be enabled by passing the Terraform module the required certificates and keys.
+Currently, TLS is supported only for the balancer and processor, as these are the public facing elements.
+Communication between the balancer and the translation servers is not encrypted, but is contained within your VPC.
+This is a restriction imposed by this Terraform configuration, and not by REMEDI. 

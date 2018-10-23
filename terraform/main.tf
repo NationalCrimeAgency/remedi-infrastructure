@@ -7,6 +7,9 @@ data "template_file" "processor" {
 
   vars {
     truecaser = "${var.truecaser}"
+    cert = "${var.processor_certificate}"
+    cert_key = "${var.processor_certificate_key}"
+    ciphers = "${var.ciphers}"
   }
 }
 
@@ -37,6 +40,9 @@ data "template_file" "balancer" {
   vars {
     server_count = "${var.server_instances * length(var.languages)}"
     domain = "${substr(data.aws_route53_zone.zone.name, 0, length(data.aws_route53_zone.zone.name) - 1)}"
+    cert = "${var.balancer_certificate}"
+    cert_key = "${var.balancer_certificate_key}"
+    ciphers = "${var.ciphers}"
   }
 }
 
