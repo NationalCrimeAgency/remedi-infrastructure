@@ -41,6 +41,16 @@ are available on an S3 bucket, using the following naming convention respectivel
 
 Currently, it is assumed that English will always be the target language.
 
+If a REMEDI server configuration file (named `{language}_en.cfg`) is available in the S3 bucket
+(as produced by the output of the model tuning), then values from this configuration file will be
+used for the model for the following fields (i.e. the outputs of model tuning):
+
+* de_lin_dist_penalty
+* lm_feature_weights
+* rm_feature_weights
+* tm_feature_weights
+* tm_word_penalty
+
 Secure Web Socket (TLS) support can be enabled by passing the Terraform module the required certificates and keys.
 Currently, TLS is supported only for the balancer and processor, as these are the public facing elements.
 Communication between the balancer and the translation servers is not encrypted, but is contained within your VPC.

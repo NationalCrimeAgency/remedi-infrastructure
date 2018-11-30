@@ -1,5 +1,26 @@
 #!/bin/bash
 
+# Download configuration from S3 (if it exists)
+aws s3 cp s3://${models_bucket}/${language}_en.cfg /opt/conf/server.cfg.best
+
+if [ -s /opt/conf/server.cfg.best ]; then
+
+DE_LIN_DIST_PENALTY=$(grep -o -E '((\s)*(de\_lin\_dist\_penalty)(\s)*(=)(\s)*(-?[0-9]+\.[0-9]+(e[-+]?[0-9]+)?)(\s)*)(#.*)?' /opt/conf/server.cfg.best | cut -d'=' -f 2)
+LM_FEATURE_WEIGHTS=$(grep -o -E '((\s)*(lm\_feature\_weights)(\s)*(=)(\s)*(-?[0-9]+\.[0-9]+(e[-+]?[0-9]+)?)(\s)*)(#.*)?' /opt/conf/server.cfg.best | cut -d'=' -f 2)
+RM_FEATURE_WEIGHTS=$(grep -o -E '((\s)*(rm\_feature\_weights)(\s)*(=)(\s)*((-?[0-9]+\.[0-9]+(e[-+]?[0-9]+)?\|?)+)(\s)*)(#.*)?' /opt/conf/server.cfg.best | cut -d'=' -f 2)
+TM_FEATURE_WEIGHTS=$(grep -o -E '((\s)*(tm\_feature\_weights)(\s)*(=)(\s)*((-?[0-9]+\.[0-9]+(e[-+]?[0-9]+)?\|?)+)(\s)*)(#.*)?' /opt/conf/server.cfg.best | cut -d'=' -f 2)
+TM_WORD_PENALTY=$(grep -o -E '((\s)*(tm\_word\_penalty)(\s)*(=)(\s)*(-?[0-9]+\.[0-9]+(e[-+]?[0-9]+)?)(\s)*)(#.*)?' /opt/conf/server.cfg.best | cut -d'=' -f 2)
+
+else
+
+DE_LIN_DIST_PENALTY=1.0
+LM_FEATURE_WEIGHTS=0.2
+RM_FEATURE_WEIGHTS="1.0|1.0|1.0|1.0|1.0|1.0"
+TM_FEATURE_WEIGHTS="1.0|1.0|1.0|1.0|1.0"
+TM_WORD_PENALTY=-0.3
+
+fi
+
 # Write configuration
 cat > /opt/conf/server.cfg <<EOL
 [Server Options]
@@ -11,20 +32,20 @@ cat > /opt/conf/server.cfg <<EOL
 
 [Language Models]
     lm_conn_string=/opt/models/${language}_en.lm
-    unk_word_log_e_prob=-10.7763748168945
-    lm_feature_weights=0.2
+    unk_word_log_e_prob=-10.0
+    lm_feature_weights=$LM_FEATURE_WEIGHTS
 
 [Translation Models]
     tm_conn_string=/opt/models/${language}_en.tm
-    tm_feature_weights=1.0|1.0|1.0|1.0|1.0
-    tm_unk_features=4.539992e-5|4.539992e-5|4.539992e-5|4.539992e-5|2.71828182846
+    tm_feature_weights=$TM_FEATURE_WEIGHTS
+    tm_unk_features=1.0|1.0|1e-10|1.0|1.0
     tm_trans_lim=30
     tm_min_trans_prob=1e-20
-    tm_word_penalty=-0.3
+    tm_word_penalty=$TM_WORD_PENALTY
 
 [Reordering Models]
     rm_conn_string=/opt/models/${language}_en.rm
-    rm_feature_weights=1.0|1.0|1.0|1.0|1.0|1.0
+    rm_feature_weights=$RM_FEATURE_WEIGHTS
 
 [Decoding Options]
     de_pruning_threshold=0.1
@@ -32,7 +53,7 @@ cat > /opt/conf/server.cfg <<EOL
     de_max_source_phrase_length=7
     de_max_target_phrase_length=7
     de_dist_lim=5
-    de_lin_dist_penalty=1.0
+    de_lin_dist_penalty=$DE_LIN_DIST_PENALTY
     de_is_gen_lattice=false
     de_lattices_folder=./lattices
     de_lattice_id2name_file_ext=feature_id2name
