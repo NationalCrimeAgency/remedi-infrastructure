@@ -3,7 +3,7 @@ set -e
 
 echo "Updating apt and patching"
 sudo apt-get update
-sudo apt-get upgrade -f -y --force-yes
+sudo DEBIAN_FRONTEND=noninteractive apt-get upgrade -f -yq --force-yes
 
 echo "Installing software-properties-common and wget"
 sudo apt-get install -y software-properties-common wget
