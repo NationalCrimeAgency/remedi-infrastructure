@@ -34,7 +34,7 @@ sudo chmod 777 /opt/build
 cd /opt/build
 
 wget https://github.com/ivan-zapreev/Distributed-Translation-Infrastructure/archive/1.8.2.tar.gz
-tar -xzf 1.8.1.tar.gz
+tar -xzf 1.8.2.tar.gz
 mv Distributed-Translation-Infrastructure-1.8.2 Distributed-Translation-Infrastructure
 cd Distributed-Translation-Infrastructure
 
